@@ -390,7 +390,7 @@ class MapProvider extends ChangeNotifier {
 
   void addGpsLocation({TrackingMode? mode = TrackingMode.PLANAR}) async {
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high);
+        locationSettings: LocationSettings(accuracy: LocationAccuracy.high));
     var _location = new LatLng(position.latitude, position.longitude);
     if (isEditMode == true) {
       ///Find center position between two coordinate
@@ -438,7 +438,7 @@ class MapProvider extends ChangeNotifier {
         markerId: MarkerId("${uniqueID + id}"),
         position: _location,
         draggable: enableDragMarker,
-        icon: BitmapDescriptor.fromBytes(markerIcon!),
+        icon: BitmapDescriptor.bytes(markerIcon!),
         onDragEnd: (newLoc) {
           if (enableDragMarker) {
             updateNewMarkerLocation(id, newLoc);
@@ -496,7 +496,7 @@ class MapProvider extends ChangeNotifier {
         polygonId: PolygonId(uniqueID),
         points: _tempLocation,
         strokeWidth: 3,
-        fillColor: _polygonColor!.withOpacity(0.3),
+        fillColor: _polygonColor!.withValues(alpha: .3),
         strokeColor: _polygonColor!));
 
     _polygons = _tempPolygons;
@@ -512,7 +512,7 @@ class MapProvider extends ChangeNotifier {
         polylineId: PolylineId(uniqueID),
         points: _tempLocation,
         width: 8,
-        color: _polygonColor!.withOpacity(0.3),
+        color: _polygonColor!.withValues(alpha: .3),
       ),
     );
     _polylines = _tempPolylines;
